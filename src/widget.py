@@ -1,6 +1,6 @@
 import datetime
 
-from masks import get_mask_account, get_mask_card_number
+from src.masks import get_mask_account, get_mask_card_number
 
 
 def mask_account_card(account_card: str) -> str:
@@ -23,7 +23,7 @@ def get_date(date_str: str) -> str:
     """Функция принимает строку с датой и возвращает в формате ДД.ММ.ГГГГ"""
 
     # 1. Преобразуем строку в объект datetime
-    date = datetime.datetime.fromisoformat(date_str)   # Для формата ISO (2024-03-11T02:26:18.671407)
+    date = datetime.datetime.fromisoformat(date_str)  # Для формата ISO (2024-03-11T02:26:18.671407)
 
     # 2. Форматируем в ДД.ММ.ГГГГ
     formatted_date = date.strftime("%d.%m.%Y")

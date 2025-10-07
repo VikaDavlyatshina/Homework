@@ -2,7 +2,7 @@ import pytest
 
 
 @pytest.fixture
-def valid_card_numbers():
+def valid_card_numbers() -> list:
     """Все валидные номера карт в одном месте"""
     return [
         ("7000792289606361", "7000 79** **** 6361"),
@@ -17,7 +17,7 @@ def valid_card_numbers():
 
 
 @pytest.fixture
-def invalid_card():
+def invalid_card() -> list:
     """Все невалидные карты в одном месте"""
     return [
         "123456789012345",  # 15 цифр - недостаточно
@@ -31,7 +31,7 @@ def invalid_card():
 
 
 @pytest.fixture
-def valid_accounts():
+def valid_accounts() -> list:
     """Все валидные номера счетов"""
     return [
         ("35383033474447895560", "**5560"),
@@ -45,7 +45,7 @@ def valid_accounts():
 
 
 @pytest.fixture
-def invalid_accounts():
+def invalid_accounts() -> list:
     """Все невалидные номера счетов в одном месте"""
     return [
         "1234567890123456789",  # 19 цифр, хотя может не подходить
@@ -59,7 +59,7 @@ def invalid_accounts():
 
 
 @pytest.fixture
-def valid_account_card():
+def valid_account_card() -> list:
     return [
         ("Maestro 1596837868705199", "Maestro 1596 83** **** 5199"),
         ("Счет 64686473678894779589", "Счет **9589"),
@@ -70,20 +70,25 @@ def valid_account_card():
         ("Visa Gold 5999414228426353", "Visa 5999 41** **** 6353"),
         ("Счет 73654108430135874305", "Счет **4305"),
     ]
+
+
 @pytest.fixture
-def invalid_account_card():
+def invalid_account_card() -> list:
     return [
-        "Maestro 15968378687099", # меньше символов
-        "Счет 6468647367889477958900", # больше символов
+        "Maestro 15968378687099",  # меньше символов
+        "Счет 6468647367889477958900",  # больше символов
         "MasterCard   ",
         "Счет 3538303347444789qq60",
         "",
         "Visa Platinum 8990-9221-1366-5229",
     ]
 
+
 @pytest.fixture
-def example_of_transactions():
-    return [{'id': 41428829, 'state': 'EXECUTED', 'date': '2019-07-03T18:35:29.512364'},
-            {'id': 939719570, 'state': 'EXECUTED', 'date': '2018-06-30T02:08:58.425572'},
-            {'id': 594226727, 'state': 'CANCELED', 'date': '2018-09-12T21:27:25.241689'},
-            {'id': 615064591, 'state': 'CANCELED', 'date': '2018-10-14T08:21:33.419441'}]
+def example_of_transactions() -> list:
+    return [
+        {"id": 41428829, "state": "EXECUTED", "date": "2019-07-03T18:35:29.512364"},
+        {"id": 939719570, "state": "EXECUTED", "date": "2018-06-30T02:08:58.425572"},
+        {"id": 594226727, "state": "CANCELED", "date": "2018-09-12T21:27:25.241689"},
+        {"id": 615064591, "state": "CANCELED", "date": "2018-10-14T08:21:33.419441"},
+    ]

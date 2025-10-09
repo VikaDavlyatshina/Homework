@@ -23,6 +23,8 @@ def mask_account_card(account_card: str) -> str:
 
 
 def get_date(date_str: str) -> str:
+    if not date_str:
+        return "Дата не указана"
     """Функция принимает строку с датой и возвращает в формате ДД.ММ.ГГГГ"""
     try:
         # 1. Преобразуем строку в объект datetime
@@ -35,8 +37,4 @@ def get_date(date_str: str) -> str:
         return "Неправильный формат"
 
 
-print(mask_account_card("Счет 64686473678894779589"))
-print(mask_account_card("Maestro 7000792289606361"))
-print(mask_account_card("Счет 73654108430135874305"))
 
-print(get_date("05/10/2023"))

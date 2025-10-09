@@ -35,6 +35,3 @@ def get_date(date_str: str) -> str:
         return formatted_date
     except (ValueError, TypeError):
         return "Неправильный формат"
-
-
-

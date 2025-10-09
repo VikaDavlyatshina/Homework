@@ -2,6 +2,7 @@ import pytest
 
 from src.widget import get_date, mask_account_card
 
+
 # Тестирование функции mask_account_card
 @pytest.mark.parametrize(
     "account_card, expected",
@@ -13,11 +14,9 @@ from src.widget import get_date, mask_account_card
         ("Visa Classic 6831982476737658", "Visa 6831 98** **** 7658"),
         ("Visa Platinum 8990922113665229", "Visa 8990 92** **** 5229"),
         ("Visa Gold 5999414228426353", "Visa 5999 41** **** 6353"),
-        ("Счет 73654108430135874305", "Счет **4305")
-        ,
+        ("Счет 73654108430135874305", "Счет **4305"),
     ],
 )
-
 def test_mask_account_valid(account_card: str, expected: str) -> None:
     result = mask_account_card(account_card)
     assert result == expected
@@ -37,7 +36,6 @@ def test_mask_account_valid(account_card: str, expected: str) -> None:
 def test_mask_account_card_invalid(invalid_account_card: str) -> None:
     with pytest.raises(ValueError):
         mask_account_card(invalid_account_card)
-
 
 
 # Тестирование функции get_date

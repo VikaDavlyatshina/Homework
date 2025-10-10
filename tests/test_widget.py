@@ -44,8 +44,13 @@ def test_mask_account_card_invalid(invalid_account_card: str) -> None:
     [
         ("2024-03-11T02:26:18.671407", "11.03.2024"),
         ("2023-10-05", "05.10.2023"),
+        ("", "Дата не указана"),
+        ("bad-date", "Неправильный формат"),
+        ("2024-02-30", "Неправильный формат"),  # некорректная дата
+        ("2024-13-01", "Неправильный формат"),  # некорректный месяц
+        # Можно добавить еще тесты
     ],
 )
-def test_get_date_valid(date_str: str, expected: str) -> None:
+def test_get_date_errors(date_str: str, expected: str) -> None:
     result = get_date(date_str)
     assert result == expected

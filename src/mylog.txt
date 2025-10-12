@@ -1,1 +1,4 @@
 my_function ок 
+my_function ок 
+my_function успешно выполнена.
+my_function успешно выполнена.

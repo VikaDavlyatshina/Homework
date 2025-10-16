@@ -1,7 +1,6 @@
 import json
 import os
-from typing import List, Dict, Any
-
+from typing import List, Dict, Any, Union
 
 def read_json_file(file_path: str) -> List[Dict[str, Any]]:
     """
@@ -17,8 +16,8 @@ def read_json_file(file_path: str) -> List[Dict[str, Any]]:
             return []
 
         # Открываем файл
-        with open(file_path, 'r', encoding='utf-8') as file:
-            data = json.load(file)
+        with open(file_path, "r", encoding="utf-8") as file:
+            data: Union[List[Dict[str, Any]], Dict[str, Any]] = json.load(file)
 
         # Проверяем, что данные являются списком
         if not isinstance(data, list):
@@ -31,23 +30,3 @@ def read_json_file(file_path: str) -> List[Dict[str, Any]]:
 
     except json.JSONDecodeError:
         return []
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

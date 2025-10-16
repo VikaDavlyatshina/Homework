@@ -88,7 +88,7 @@ def sample_description() -> list:
 
 
 @pytest.fixture
-def sample_transactions_for_the_json():
+def sample_transactions_for_the_json() -> list:
     return [
         {
             "id": 441945886,

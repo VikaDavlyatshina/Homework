@@ -37,7 +37,7 @@ def test_filter_by_currency_no_matches(transactions: List[Dict[str, Any]]) -> No
 
 def test_filter_by_currency_empty() -> None:
     # Тестирование обработки пустого списка
-    result = list(filter_by_currency([], []))
+    result = list(filter_by_currency([], ""))
     assert result == []
 
 

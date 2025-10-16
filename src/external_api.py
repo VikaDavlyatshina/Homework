@@ -1,15 +1,16 @@
 import os
+from typing import Optional
 from dotenv import load_dotenv
 import requests
 
 # Загрузка переменных из .env файла
 load_dotenv()
 
-APIKEY = "MjvYNFpGpf8CKm40Ck1aP06zv9Vawrci"
-# APIKEY = os.getenv('API_KEY') #Получение токена API
-url= "https://api.apilayer.com/exchangerates_data/convert"
+APIKEY = os.getenv("API_KEY")  # Получение токена API
+EXCHANGE_API_URL = "https://api.apilayer.com/exchangerates_data/convert"
 
-def convert_transactions_to_rub(transaction: dict) :
+
+def converting_a_transactions_into_rub(transaction: dict) -> Optional[float]:
     """Функция принимает на вход транзакцию и возвращает сумму транзакций (amount) в рублях"""
 
     if not APIKEY:
@@ -18,48 +19,34 @@ def convert_transactions_to_rub(transaction: dict) :
     try:
         # Извлекаем сумму и код валюты
         amount = float(transaction["operationAmount"]["amount"])
-        currency_code = transaction["operationAmount"]['currency']['code']
+        currency_code = transaction["operationAmount"]["currency"]["code"]
 
-        if currency_code == 'RUB':
+        if currency_code == "RUB":
             return amount
 
-        if currency_code in ['USD', 'EUR']:
-            headers = {'apikey': APIKEY}
-            params = {
-                'from': currency_code,
-                'to': 'RUB',
-                'amount': amount
-            }
+        if currency_code in ["USD", "EUR"]:
+            headers = {"apikey": APIKEY}
+            params = {"from": currency_code, "to": "RUB", "amount": amount}
 
-            response = requests.get(url, headers=headers, params=params)
-            response.raise_for_status()
+            response = requests.get(EXCHANGE_API_URL, headers=headers, params=params)
+            if response.status_code != 200:
+                print(f"Ошибка API с кодом {response.status_code}: {response.text} ")
+                return None
 
             data = response.json()
-            if 'result' in data:
-                return  float(data['result'])
+            if "result" in data:
+                return float(data["result"])
 
             else:
-                print("Ошибка API: отсутствует 'result' в ответе.")
+                print(f"Некорректный ответ API: {data}")
                 return None
         else:
-             print(f"Неподдерживаемая валюта: {currency_code}")
-             return None
+            print(f"Неподдерживаемая валюта: {currency_code}")
+            return None
 
     except KeyError as e:
         print(f"Отсутствует обязательное поле в транзакции: {e}")
         return None
-    except ValueError as e:
-        print(f"Ошибка в преобразовании данных: {e}")
-        return None
     except requests.exceptions.RequestException as e:
         print(f"Ошибка обращения к API: {e}")
         return None
-
-
-
-
-
-
-
-
-

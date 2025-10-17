@@ -1,6 +1,7 @@
 import unittest
-from unittest.mock import patch, Mock
 from typing import Any, Dict, Optional
+from unittest.mock import Mock, patch
+
 from src.external_api import converting_a_transactions_into_rub
 
 

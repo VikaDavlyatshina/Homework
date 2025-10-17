@@ -62,4 +62,17 @@ print("Транзакции в USD")
 for transactions in usd_transaction_gen:
     print(transactions)
 ```
+### Декоратор log
+Новый  модуль `decorators` содержит декоратор `@log`. Декоратор автоматически логирует успешное выполнение функции 
+или ошибки, возникающие во время её вызова. Можно указывать файл для записи логов, либо вывести результат в консоль.
+**Пример использования**
+```python
+from src.decorators import log
+@log(filename='log.txt')
+def my_function():
+     print("Hello!")
 
+@log()
+def another_func():
+    raise ValueError("Ошибка!")
+```

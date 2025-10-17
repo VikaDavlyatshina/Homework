@@ -81,26 +81,3 @@ def get_mask_account(account_number: int | str) -> str:
     logger.info(f"Номер счета успешно замаскирован:{masked_account}")
 
     return masked_account
-
-
-if __name__ == "__main__":
-    try:
-        print(get_mask_card_number("1234 5678 9012 3456"))
-    except ValueError as e:
-        print(e)
-
-    try:
-        print(get_mask_account("12345678901234567890"))
-    except ValueError as e:
-        print(e)
-
-    # Ошибочные случаи
-    try:
-        print(get_mask_card_number("123"))
-    except ValueError as e:
-        print(e)
-
-    try:
-        print(get_mask_account("1234567890123456789a"))
-    except ValueError as e:
-        print(e)

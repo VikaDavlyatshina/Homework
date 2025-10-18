@@ -63,7 +63,7 @@ for transactions in usd_transaction_gen:
     print(transactions)
 ```
 ### Декоратор log
-Новый  модуль `decorators` содержит декоратор `@log`. Декоратор автоматически логирует успешное выполнение функции 
+Новый модуль `decorators` содержит декоратор `@log`. Декоратор автоматически логирует успешное выполнение функции 
 или ошибки, возникающие во время её вызова. Можно указывать файл для записи логов, либо вывести результат в консоль.
 **Пример использования**
 ```python
@@ -76,3 +76,50 @@ def my_function():
 def another_func():
     raise ValueError("Ошибка!")
 ```
+### Работа с файлами и валютами
+Новые модули `utils` и `file_readers` предоставляют инструменты для считывания информации о транзакциях из файлов разных
+форматов. Функции позволяют загружать данные о транзакциях из файлов в формате JSON, CSV, Excel соответственно.
+Каждая функция возвращает список словарей, где каждый словарь - одна транзакция.
+
+**Функции**
+* read_transactions_from_json(file_path: str) -> List[Dict[str, Any]]
+* read_transactions_from_csv(file_path: str) -> List[Dict[str, Any]]
+* read_transactions_from_excel(file_path: str) -> List[Dict[str, Any]]
+
+**Пример использования**
+```python
+from src.utils import read_transactions_from_json
+
+json_transactions = read_transactions_from_json('data/operations.json')
+
+```
+Также в модуле `external_api` реализована функция для конвертации суммы в рубли с помощью обращения к внешнему API:
+* def converting_a_transactions_into_rub(transaction: dict) -> Optional[float]:
+Функция принимает на вход транзакцию и возвращает сумму транзакций в рублях `RUB`. Если транзакция указана в `USD` или 
+в `EUR`, происходит обращение к внешнему API для получения текущего курса валют и конвертации сумму в рубли.
+```python
+from src.external_api import converting_a_transactions_into_rub
+
+# Пример транзакции в долларах
+transaction_usd = {
+    "operationAmount": {
+        "amount": "150.00",
+        "currency": {
+            "code": "USD"
+        }
+    }
+}
+
+# Конвертация суммы в рубли
+rub_amount = converting_a_transactions_into_rub(transaction_usd)
+
+if rub_amount is not None:
+    print(f"Сумма операции в рублях: {rub_amount:.2f} RUB")
+else:
+    print("Не удалось конвертировать сумму")
+```
+
+Важно: Для корректной работы функции необходимо:
+
+* Создать файл .env с переменной API_KEY, содержащей ваш API-ключ;
+* Установить зависимости: requests и python-dotenv

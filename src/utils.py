@@ -2,7 +2,7 @@ import json
 import os
 from typing import List, Dict, Any, Union
 
-def read_json_file(file_path: str) -> List[Dict[str, Any]]:
+def read_transactions_from_json(file_path: str) -> List[Dict[str, Any]]:
     """
     Функция загружает транзакции из JSON файла
     Args:

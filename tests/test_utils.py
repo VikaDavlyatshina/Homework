@@ -3,7 +3,7 @@ import os
 import unittest
 from typing import ClassVar
 
-from src.utils import read_json_file
+from src.utils import read_transactions_from_json
 
 
 class TestReadJsonFile(unittest.TestCase):
@@ -52,7 +52,7 @@ class TestReadJsonFile(unittest.TestCase):
         # Тестируем чтение корректного файла -> должен возвращать список словарей
 
         path = os.path.join(self.test_dir, "valid.json")
-        result = read_json_file(path)
+        result = read_transactions_from_json(path)
         self.assertIsInstance(result, list)
         self.assertEqual(len(result), 3)
         self.assertTrue(all(isinstance(item, dict) for item in result))
@@ -60,11 +60,11 @@ class TestReadJsonFile(unittest.TestCase):
     def test_file_empty(self) -> None:
         # Тестирование, когда файл пустой
         path = os.path.join(self.test_dir, "empty.json")
-        result = read_json_file(path)
+        result = read_transactions_from_json(path)
         self.assertEqual(result, [])
 
     def test_file_invalid_json(self) -> None:
         # Тестирование файла с некорректными данными
         path = os.path.join(self.test_dir, "invalid_json.json")
-        result = read_json_file(path)
+        result = read_transactions_from_json(path)
         self.assertEqual(result, [])

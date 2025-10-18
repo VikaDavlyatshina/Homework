@@ -1,7 +1,8 @@
-from typing import List, Dict, Any
-import pandas as pd
-import os
 import logging
+import os
+from typing import Any, Dict, List, cast
+
+import pandas as pd
 
 # Создаем папку logs если она не существует
 if not os.path.exists("logs"):
@@ -31,11 +32,13 @@ def read_transactions_from_csv(file_path: str) -> List[Dict[str, Any]]:
     logger.info(f"Начало чтения CSV-файла: {file_path}")
 
     try:
+        # Проверяем существование файла
         if not os.path.exists(file_path):
             raise FileNotFoundError(f"Файл не найден: {file_path}")
 
-        df = pd.read_csv(file_path, encoding='utf-8')
-        transactions = df.to_dict(orient="records")
+        # Открываем файл
+        df = pd.read_csv(file_path, encoding="utf-8")
+        transactions = cast(List[Dict[str, Any]], df.to_dict(orient="records"))
 
         logger.info(f"Успешно прочитано {len(transactions)} транзакций в CSV-файле")
         return transactions
@@ -59,11 +62,13 @@ def read_transactions_from_excel(file_path: str) -> List[Dict[str, Any]]:
     logger.info(f"Начало чтения Excel-файла: {file_path}")
 
     try:
+        # Проверяем существование файла
         if not os.path.exists(file_path):
             raise FileNotFoundError(f"Файл не найден: {file_path}")
 
+        # Открываем файл
         df = pd.read_excel(file_path)
-        transactions = df.to_dict(orient="records")
+        transactions = cast(List[Dict[str, Any]], df.to_dict(orient="records"))
 
         logger.info(f"Успешно прочитано {len(transactions)} транзакций в Excel-файле")
         return transactions

@@ -37,7 +37,7 @@ def read_transactions_from_csv(file_path: str) -> List[Dict[str, Any]]:
             raise FileNotFoundError(f"Файл не найден: {file_path}")
 
         # Открываем файл
-        df = pd.read_csv(file_path, encoding="utf-8")
+        df = pd.read_csv(file_path, encoding="utf-8", sep=";")
         transactions = cast(List[Dict[str, Any]], df.to_dict(orient="records"))
 
         logger.info(f"Успешно прочитано {len(transactions)} транзакций в CSV-файле")

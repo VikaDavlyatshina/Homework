@@ -5,8 +5,14 @@ def filter_by_currency(transactions: List[Dict[str, Any]], currency_code: str) -
     """Функция, которая принимает на вход список транзакций и поочередно выдает транзакции,
     соответствующие заданной валюте"""
     for transaction in transactions:
-        if transaction.get("operationAmount", {}).get("currency", {}).get("code", {}) == currency_code:
-            yield transaction
+        try:
+            if transaction.get('currency_code') == currency_code:
+                yield transaction
+            elif transaction.get("operationAmount", {}).get("currency", {}).get("code", {}) == currency_code:
+                yield transaction
+        except (AttributeError, TypeError):
+            # Если структура данных некорректна, пропускаем транзакцию
+            continue
 
 
 def transaction_descriptions(transactions: List[Dict[str, Any]]) -> Iterator:

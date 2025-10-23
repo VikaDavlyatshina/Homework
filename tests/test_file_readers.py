@@ -1,5 +1,7 @@
+from unittest.mock import Mock, patch
+
 import pytest
-from unittest.mock import patch, Mock
+
 from src.file_readers import read_transactions_from_csv, read_transactions_from_excel
 
 

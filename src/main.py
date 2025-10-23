@@ -7,7 +7,7 @@ from src.utils import read_transactions_from_json
 from src.widget import get_date, mask_account_card
 
 
-def main()-> None:  # pragma: no cover
+def main() -> None:  # pragma: no cover
     """Отвечает за основную логику проекта и связывает функциональности между собой"""
 
     print("Привет, добро пожаловать в программу работы с банковскими транзакциями")

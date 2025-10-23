@@ -1,4 +1,4 @@
-from src.bank_functions import process_bank_search, process_bank_operations
+from src.bank_functions import process_bank_operations, process_bank_search
 
 
 class TestProcessBankSearch:

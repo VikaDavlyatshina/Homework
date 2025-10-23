@@ -1,4 +1,5 @@
 import pytest
+
 from config import setup_test_masks_logger
 
 # Создаем логгер для тестов

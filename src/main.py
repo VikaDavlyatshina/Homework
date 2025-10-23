@@ -7,7 +7,7 @@ from src.utils import read_transactions_from_json
 from src.widget import get_date, mask_account_card
 
 
-def main()-> None:
+def main()-> None:  # pragma: no cover
     """Отвечает за основную логику проекта и связывает функциональности между собой"""
 
     print("Привет, добро пожаловать в программу работы с банковскими транзакциями")
@@ -157,6 +157,8 @@ def main()-> None:
         print(f"{date} {descriptions}")
 
         from_account = transaction.get("from", "")
+        if type(from_account) is float:
+            from_account = ""
         to_account = transaction.get("to", "")
 
         if from_account and to_account:

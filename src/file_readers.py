@@ -1,24 +1,12 @@
-import logging
-import os
+from pathlib import Path
 from typing import Any, Dict, List, cast
 
 import pandas as pd
 
-# Создаем папку logs если она не существует
-if not os.path.exists("logs"):
-    os.makedirs("logs")
+from config import setup_file_readers_logger
 
-logger = logging.getLogger("file_readers")
-logger.setLevel(logging.INFO)
-
-# Создаем обработчик
-file_handler = logging.FileHandler("logs/file_readers.log", mode="w", encoding="utf-8")
-file_formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
-file_handler.setFormatter(file_formatter)
-
-# добавляем обработчик, чтобы избежать дублирования
-if not logger.hasHandlers():
-    logger.addHandler(file_handler)
+# Создаем логгер
+logger = setup_file_readers_logger()
 
 
 def read_transactions_from_csv(file_path: str) -> List[Dict[str, Any]]:
@@ -33,7 +21,7 @@ def read_transactions_from_csv(file_path: str) -> List[Dict[str, Any]]:
 
     try:
         # Проверяем существование файла
-        if not os.path.exists(file_path):
+        if not Path(file_path).exists():
             raise FileNotFoundError(f"Файл не найден: {file_path}")
 
         # Открываем файл
@@ -63,7 +51,7 @@ def read_transactions_from_excel(file_path: str) -> List[Dict[str, Any]]:
 
     try:
         # Проверяем существование файла
-        if not os.path.exists(file_path):
+        if not Path(file_path).exists():
             raise FileNotFoundError(f"Файл не найден: {file_path}")
 
         # Открываем файл

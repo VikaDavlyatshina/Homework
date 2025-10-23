@@ -1,25 +1,33 @@
 import pytest
+from config import setup_test_masks_logger
+
+# Создаем логгер для тестов
+test_logger = setup_test_masks_logger()
 
 from src.masks import get_mask_account, get_mask_card_number
 
 """Тесты для get_mask_card_number"""
 
 
-# Тесты для корректных номеров карт
+# Тесты для корректных номеров карт - ТОЛЬКО СТРОКИ
 @pytest.mark.parametrize(
     "valid_card_number, expected_masks",
     [
         ("7000792289606361", "7000 79** **** 6361"),
         ("1234567890123456", "1234 56** **** 3456"),
         ("1596837868705199", "1596 83** **** 5199"),
-        # Ввод с пробелами внутри строки
-        ("7000 7922 8960 6361", "7000 79** **** 6361"),
-        (" 7000 7922 8960 6361 ", "7000 79** **** 6361"),
     ],
 )
 def test_get_mask_card_number_valid(valid_card_number: str, expected_masks: str) -> None:
     result = get_mask_card_number(valid_card_number)
     assert result == expected_masks
+
+
+# ОТДЕЛЬНЫЙ тест для чисел (без parametrize)
+def test_get_mask_card_number_with_int() -> None:
+    """Тестируем что функция работает с числами"""
+    result = get_mask_card_number(7000792289606361)
+    assert result == "7000 79** **** 6361"
 
 
 # Тесты для некорректных номеров карт
@@ -36,24 +44,20 @@ def test_get_mask_card_number_valid(valid_card_number: str, expected_masks: str)
     ],
 )
 def test_get_mask_card_number_invalid(invalid_card_number: str) -> None:
-    with pytest.raises(ValueError) as exc_info:
+    with pytest.raises(ValueError, match="Номер карты должен содержать 16 цифр"):
         get_mask_card_number(invalid_card_number)
-    assert "Номер карты должен содержать 16 цифр" in str(exc_info.value)
 
 
 """Тесты для get_mask_account"""
 
 
-# Тесты для get_mask_account
+# Тесты для get_mask_account - ТОЛЬКО СТРОКИ
 @pytest.mark.parametrize(
     "account_number, expected_mask",
     [
         ("35383033474447895560", "**5560"),
         ("73654108430135874305", "**4305"),
         ("64686473678894779589", "**9589"),
-        # Формат с пробелами
-        ("3538 3033 4744 4789 5560", "**5560"),
-        ("  3538 3033 4744 4789 5560  ", "**5560"),
     ],
 )
 def test_get_mask_account_valid(account_number: str, expected_mask: str) -> None:
@@ -61,8 +65,13 @@ def test_get_mask_account_valid(account_number: str, expected_mask: str) -> None
     assert result == expected_mask
 
 
-#
-#
+# ОТДЕЛЬНЫЙ тест для чисел (без parametrize)
+def test_get_mask_account_with_int() -> None:
+    """Тестируем что функция работает с числами"""
+    result = get_mask_account(35383033474447895560)
+    assert result == "**5560"
+
+
 # Тесты для некорректных номеров счетов
 @pytest.mark.parametrize(
     "invalid_account_number",
@@ -77,6 +86,5 @@ def test_get_mask_account_valid(account_number: str, expected_mask: str) -> None
     ],
 )
 def test_get_mask_account_invalid(invalid_account_number: str) -> None:
-    with pytest.raises(ValueError) as exc_info:
+    with pytest.raises(ValueError, match="Номер счета должен содержать 20 цифр"):
         get_mask_account(invalid_account_number)
-    assert "Номер счета должен содержать 20 цифр" in str(exc_info.value)

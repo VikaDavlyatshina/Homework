@@ -1,5 +1,3 @@
-import datetime
-
 from src.masks import get_mask_account, get_mask_card_number
 
 
@@ -23,15 +21,34 @@ def mask_account_card(account_card: str) -> str:
 
 
 def get_date(date_str: str) -> str:
-    if not date_str:
-        return "Дата не указана"
     """Функция принимает строку с датой и возвращает в формате ДД.ММ.ГГГГ"""
-    try:
-        # 1. Преобразуем строку в объект datetime
-        date = datetime.datetime.fromisoformat(date_str)  # Для формата ISO (2024-03-11T02:26:18.671407)
+    # Исходная строка: "2024-03-11T02:26:18.671407"
 
-        # 2. Форматируем в ДД.ММ.ГГГГ
-        formatted_date = date.strftime("%d.%m.%Y")
-        return formatted_date
-    except (ValueError, TypeError):
+    # 1. Проверяем пустую строку
+    if date_str == "":
+        return "Дата не указана"
+
+    # 2. Пробуем разобрать дату
+    try:
+        # Разделяем дату и время через разделитель 'T' и получим первый элемент списка
+        date_part = date_str.split("T")[0]  # Результат "2024-03-11"
+
+        # Разбиваем дату на составляющие
+        part = date_part.split("-")
+
+        # 3. Проверяем, что получилось 3 части
+        if len(part) != 3:
+            return "Неправильный формат"
+
+        # Извлекаем отдельные компоненты
+        day = part[2]
+        month = part[1]
+        year = part[0]
+
+        # 4. Форматируем дату
+        date = f"{day}.{month}.{year}"
+
+        return date
+
+    except IndexError:
         return "Неправильный формат"

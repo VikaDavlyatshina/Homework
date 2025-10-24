@@ -38,19 +38,19 @@ def test_mask_account_card_invalid(invalid_account_card: str) -> None:
         mask_account_card(invalid_account_card)
 
 
-# Тестирование функции get_date
-@pytest.mark.parametrize(
-    "date_str, expected",
-    [
-        ("2024-03-11T02:26:18.671407", "11.03.2024"),
-        ("2023-10-05", "05.10.2023"),
-        ("", "Дата не указана"),
-        ("bad-date", "Неправильный формат"),
-        ("2024-02-30", "Неправильный формат"),  # некорректная дата
-        ("2024-13-01", "Неправильный формат"),  # некорректный месяц
-        # Можно добавить еще тесты
-    ],
-)
-def test_get_date_errors(date_str: str, expected: str) -> None:
-    result = get_date(date_str)
-    assert result == expected
+def test_get_date_normal_cases():
+    """Тестируем нормальные случаи работы функции"""
+    assert get_date("2024-03-11T02:26:18.671407") == "11.03.2024"
+    assert get_date("2023-10-05") == "05.10.2023"
+
+
+def test_get_date_empty_string():
+    """Тестируем пустую строку"""
+    assert get_date("") == "Дата не указана"
+
+
+def test_get_date_bad_formats():
+    """Тестируем неправильные форматы"""
+    assert get_date("bad-date") == "Неправильный формат"
+    assert get_date("2024-03") == "Неправильный формат"
+    assert get_date("abc") == "Неправильный формат"

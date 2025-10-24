@@ -12,7 +12,7 @@ def filter_by_state(transactions: List[Dict[str, Any]], state: str = "EXECUTED")
     return filtered_transactions
 
 
-def sort_by_date(transactions: List[Dict[str, Any]], reverse: bool = True) -> List[Dict[str, Any]]:
+def sort_by_date(transactions: list[dict], reverse=True) -> list[dict]:
     """Функция принимает список словарей и параметр, задающий порядок сортировки.
     Возвращает новый отсортированный список"""
 
